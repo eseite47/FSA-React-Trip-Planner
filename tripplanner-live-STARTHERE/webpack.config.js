@@ -1,6 +1,6 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
-  entry: ["./client/index.js", "./client/style.scss"],
+  entry: ["./browser/index.js", "./client/style.scss"],
   output: {
     path: __dirname,
     filename: "./public/bundle.js"
@@ -8,6 +8,15 @@ module.exports = {
   devtool: "source-map",
   module: {
     rules: [
+      {
+        "exclude": "/node_modules/",
+        "include":  __dirname + "/browser/",
+        "loader": "babel-loader",
+        "options": {
+          "presets": ["es2015", "react"]
+        },
+        "test": /\.jsx?$/
+      },
       {
         test: /\.(scss)$/,
         loader: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
